@@ -30,7 +30,7 @@ input_Sy.place(relx=0.35,rely=0.73,anchor=CENTER)
 text_L4=Label(root,text="EndX:",bg="lightblue")
 text_L4.place(relx=0.45,rely=0.73,anchor=CENTER) 
 input_Ex=Entry(root,width=10)
-input_Ex.insert(0,"600")
+input_Ex.insert(0,"400")
 input_Ex.place(relx=0.55,rely=0.73,anchor=CENTER)
 
 
@@ -41,49 +41,57 @@ input_Ey.insert(0,"400")
 input_Ey.place(relx=0.75,rely=0.73,anchor=CENTER)
 
 
-text_L6=Label(root,text="Radius:",bg="lightblue")
-text_L6.place(relx=0.85,rely=0.73,anchor=CENTER) 
-input_radius=Entry(root,width=10)
-input_radius.insert(0,"50")
-input_radius.place(relx=0.95,rely=0.73,anchor=CENTER)
-
 canvas=Canvas(root,width=400,height=400, bg="white",highlightthickness=5,borderwidth=2,relief=SOLID)
 canvas.pack()
     
 shape_name=""
 def draw_circle(event):
     global shape_name
+    oldx=input_Sx.get()
+    oldy=input_Sy.get()
+    newy=input_Ex.get()
+    newx=input_Ey.get()
     shape_name="Circle"
-    drawshape()
+    keypress="c"
+    drawshape(keypress,oldx,oldy,newx,newy)
 
 def draw_square(event):
-    global shape_name
-    shape_name="Square"
-    drawshape()
-
-def draw_rect(event):
-    global shape_name
-    shape_name="Rectangle"
-    drawshape()
-
-
-def drawshape() :
     global shape_name
     oldx=input_Sx.get()
     oldy=input_Sy.get()
     newy=input_Ex.get()
     newx=input_Ey.get()
-    radius=input_radius.get()
+    shape_name="Square"
+    keypress="s"
+    drawshape(keypress,oldx,oldy,newx,newy)
+
+def draw_rect(event):
+    global shape_name
+    oldx=input_Sx.get()
+    oldy=input_Sy.get()
+    newy=input_Ex.get()
+    newx=input_Ey.get()
+    shape_name="Rectangle"
+    keypress="r"
+    drawshape(keypress,oldx,oldy,newx,newy)
+
+
+def drawshape(keypress,oldx,oldy,newx,newy) :
+    global shape_name
     color_name=input_color.get()
-    if(shape_name=="Square"or"Rectangle"):
-        canvas.create_rectangle(oldx, oldy, newx, newy, fill=str(color_name), outline = str(color_name))
+    if(keypress=="s"):
+        shape_name=canvas.create_rectangle(oldx, oldy, newx, newy, fill=str(color_name), outline = str(color_name))
         
-    elif(shape_name=="Circle"):
-        canvas.create_circle(oldx,oldy,radius)
+    if(keypress=="r"):
+        shape_name=canvas.create_rectangle(oldx, oldy, newx, newy, fill=str(color_name), outline = str(color_name))
+        
+    if(keypress=="c"):
+        print("circle")
+        shape_name=canvas.create_oval(oldx, oldy, newx, newy, fill=str(color_name))
         
 root.bind("<c>",draw_circle)
 root.bind("<s>",draw_square)
 root.bind("<r>",draw_rect)
 
-root.mainloop()
+root.mainloop() 
 
